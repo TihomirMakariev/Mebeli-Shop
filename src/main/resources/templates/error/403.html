@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+
+<div class="container-403">
+    <img th:src="@{/images/403.jpg}" alt="Lost">
+    <h1>Oops! It seems like you don't have permission to access this page.</h1>
+    <p>It seems like you've taken a detour into uncharted territories. The page you're looking for seems to have taken a vacation without leaving a forwarding address.
+        If you believe you should have access to this page, please contact the site administrator or try logging in again..</p>
+    <p>Thank you for your understanding!</p>
+    <p><a href="/">Go Back Home</a></p>
+</div>
+
+
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+
+
+</body>
+</html>

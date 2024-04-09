@@ -1,0 +1,17 @@
+/* Активна страница */
+.page-item.active a {
+    background-color: #007bff; /* Цвят на фона за активна страница */
+    color: #fff; /* Цвят на текста за активна страница */
+    border-color: #007bff; /* Цвят на рамката за активна страница */
+}
+
+/* Неактивна страница */
+.page-item.disabled a {
+    background-color: #fff; /* Цвят на фона за неактивна страница */
+    color: #000; /* Цвят на текста за неактивна страница */
+    border-color: #dee2e6; /* Цвят на рамката за неактивна страница */
+}
+
+.page-item.active {
+    background-color: #007bff; /* Change this color to your desired active page color */
+}

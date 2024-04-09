@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+
+<div class="container-fluid"
+     th:object="${livingRoomViewModel}">
+    <h2 class="text-center text-dark mt-5 mb-3">Details of living room model</h2>
+    <div class="offers row mx-auto d-flex flex-row justify-content-center">
+        <div class="offer card col-sm-2 col-md-3  col-lg-3 m-1 p-0">
+            <div class="card-body pb-1 align-items-center text-center mt-3">
+                <h5 class="card-title">
+                    Living room model</h5>
+            </div>
+            <ul class="offer-details list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="card-text mb-3"><span><strong>Name: </strong><th:block th:text="*{name}"></th:block></span></div>
+                    <div class="card-text mb-3"><span><strong>Color: </strong><th:block th:text="*{color}"></th:block></span></div>
+                    <div class="card-text mb-3"><span><strong>Price: </strong><th:block th:text="*{price}"></th:block> лв.</span></div>
+                    <th:block th:if="*{canDelete}">
+                        <div class="card-text mb-3"><span><strong>Author: </strong><th:block th:text="*{authorFullName}"></th:block></span>
+                        </div>
+                    </th:block>
+                </li>
+            </ul>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <th:block th:if="*{canDelete}">             <!--Hide the buttons Edit and Delete if not Owner ot Admin -->
+                        <a class="btn btn-sm btn-outline-secondary card-link me-2"
+                           th:href="@{/living-rooms/update/{id}(id=*{id})}">
+                            Edit details
+                        </a>
+                        <form th:action="@{/living-rooms/details/{id}(id=*{id})}"
+                              th:method="delete">
+                            <input type="submit" value="Delete" class="btn btn-sm btn-outline-secondary">
+                        </form>
+                    </th:block>
+                    <a class="btn btn-sm btn-outline-primary card-link ms-2" href="/living-rooms/all" >Go Back</a>
+                </div>
+            </div>
+        </div>
+        <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0">
+            <img th:src="*{imageUrl}" class="card-img-top" alt="Car image">
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

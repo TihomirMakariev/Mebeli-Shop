@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+
+<!-- Registration 2 - Bootstrap Brain Component -->
+<div class="bg-light py-2 py-md-3" id="auth-register">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+                <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="mb-5 text-center">
+                                <h2 class="h3">Registration</h2>
+                                <h3 class="fs-6 fw-normal text-secondary m-0">Enter your details to register</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form th:object="${userRegisterDTO}"
+                          th:action="@{/users/register}"
+                          th:method="post">
+                        <div class="row gy-3 gy-md-4 overflow-hidden">
+                            <div class="col-12">
+                                <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                                <input th:field="*{firstName}"
+                                       th:errorclass="invalid-feedback"
+                                       type="text"
+                                       class="form-control form-control-sm"
+                                       name="firstName"
+                                       id="firstName"
+                                       placeholder="First name"
+                                       required/>
+                                <p class="invalid-feedback errors alert alert-danger">
+                                    First name is required and should be between 2 and 20 symbol.
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <label for="lastName" class="form-label">Last Name <span
+                                        class="text-danger">*</span></label>
+                                <input th:field="*{lastName}"
+                                       th:errorclass="is-invalid"
+                                       type="text"
+                                       class="form-control form-control-sm"
+                                       name="lastName"
+                                       id="lastName"
+                                       placeholder="Last name"
+                                       required/>
+                                <p class="invalid-feedback errors alert alert-danger">
+                                    Last name is required and should be between 2 and 20 symbol.
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input th:field="*{email}"
+                                       th:errorclass="is-invalid"
+                                       type="email"
+                                       class="form-control form-control-sm"
+                                       name="email"
+                                       id="email"
+                                       placeholder="name@example.com"
+                                       required>
+                                <div class="invalid-feedback errors alert alert-danger">
+                                    <div
+                                            th:each="err : ${#fields.errors('email')}"
+                                            th:text="${err}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="password" class="form-label">Password <span
+                                        class="text-danger">*</span></label>
+                                <input th:field="*{password}"
+                                       th:errorclass="is-invalid"
+                                       type="password"
+                                       class="form-control form-control-sm"
+                                       name="password"
+                                       id="password"
+                                       value=""
+                                       required/>
+                                <p class="invalid-feedback errors alert alert-danger">
+                                    Password is required and should be at least 5 symbols.
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <label for="confirmPassword" class="form-label">Confirm password <span
+                                        class="text-danger">*</span></label>
+                                <input th:field="*{confirmPassword}"
+                                       th:name="confirmPassword"
+                                       th:errorclass="is-invalid"
+                                       type="password"
+                                       class="form-control form-control-sm"
+                                       name="confirmPassword"
+                                       id="confirmPassword"
+                                       value="" required/>
+                                <p class="invalid-feedback errors alert alert-danger">
+                                    Password should match.
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button class="btn btn-lg btn-primary" type="submit">Sign up</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+
+
+<!-- Search bar -->
+<form th:method="GET" th:action="@{/kitchens/all}" th:object="${searchKitchenDTO}">
+    <section class="search-banner bg-light text-white py-1 my-0" id="search-banner">
+        <div class="container py-0 my-0">
+            <div class="row text-center pb-1"></div>
+            <div class="row justify-content-center"> <!-- Center align the row -->
+                <!-- Search fields -->
+                <div class="col-md-2"> <!-- Center align each column -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <select id="color"
+                                        name="color"
+                                        class="form-select form-select-sm"
+                                        th:errorclass="is-invalid">
+                                    <option value="">- Select color -</option>
+                                    <option th:each="color : ${T(bg.tihomir.mebeli.model.enums.ColorEnum).values()}"
+                                            th:text="${color}"
+                                            th:value="${color}"
+                                            th:selected="${color} == *{color}">
+                                        Color
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"> <!-- Center align each column -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input
+                                        th:field="*{minPrice}"
+                                        th:errorclass="is-invalid"
+                                        id="searchInputMinPrice"
+                                        class="form-control form-control-sm me-2"
+                                        type="search"
+                                        aria-label="Search"
+                                        placeholder="Min price ..."
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"> <!-- Center align each column -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input
+                                        th:field="*{maxPrice}"
+                                        th:errorclass="is-invalid"
+                                        id="searchInputMaxPrice"
+                                        class="form-control form-control-sm me-2"
+                                        type="search"
+                                        aria-label="Search"
+                                        placeholder="Max price ..."
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Search button -->
+                <div class="col-md-2 align-self-center">
+                    <!-- Center align each column and vertically center the content -->
+                    <button class="btn btn-sm btn-outline-secondary" th:text="#{navbar_search}"
+                            type="submit">Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+<!-- Search bar End-->
+
+
+<!-- Content section -->
+<div class="album py-5 bg-light">
+    <div class="col text-center text-black mb-3">
+        <th:block th:if="${kitchenFound}">
+            <h2>Kitchens</h2>
+        </th:block>
+    </div>
+    <div class="container">
+        <!-- Check if there are living rooms -->
+        <th:block th:if="${#lists.isEmpty(kitchenViewModel.content)}">
+            <!-- Another approach  <th:block th:if="${!kitchenFound}"> -->
+            <div class="col text-center" style="height: 495px">
+                <h2>No Kitchens Rooms Found</h2>
+                <p class="lead">We're sorry, but we couldn't find any kitchens matching your criteria at the
+                    moment.</p>
+                <p class="text-muted">Please try adjusting your search filters or check back later for updates.</p>
+                <p style="font-size: 24px"><a class="btn btn-sm btn-outline-primary card-link" href="/kitchens/all">Go
+                    Back</a></p>
+            </div>
+        </th:block>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+            <!-- Iterate over living rooms if there are any -->
+            <div class="col"
+                 th:each="kitchen: ${kitchenViewModel.content}"
+                 th:object="${kitchen}">
+                <div class="card shadow-sm">
+                    <!-- Card content -->
+                    <div class="card-img-top-wrapper">
+                        <img class="card-img-top" th:src="*{imageUrl}" alt="Car image" height="230">
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card-text"><strong>Name: </strong><span th:text="${kitchen.name}"></span></div>
+                        <div class="card-text"><strong>Color: </strong><span th:text="${kitchen.color}"></span></div>
+                        <div class="card-text"><strong>Price: </strong><span th:text="${kitchen.price} + ' lv.'"></span></div>
+                        <div class="card-text mb-3"><strong>Category: </strong><span th:text="${kitchen.category}"></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-sm btn-outline-secondary card-link"
+                                   th:href="@{/kitchens/details/{kitchenId}(kitchenId=*{id})}">
+                                    View
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Pagination -->
+<th:block th:if="${not #lists.isEmpty(kitchenViewModel.content)}">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${kitchenViewModel.isFirst()} ? 'disabled' : ''">
+                <a th:unless="${kitchenViewModel.isFirst()}"
+                   th:href="@{/kitchens/all(size=${kitchenViewModel.getSize()},page=0)}"
+                   class="page-link">First</a>
+                <a th:if="${kitchenViewModel.isFirst()}"
+                   class="page-link" href="#">First</a>
+            </li>
+            <li class="page-item" th:classappend="${kitchenViewModel.hasPrevious() ? '' : 'disabled'}">
+                <a th:if="${kitchenViewModel.hasPrevious()}"
+                   th:href="@{/kitchens/all(size=${kitchenViewModel.getSize()},page=${kitchenViewModel.getNumber() - 1})}"
+                   class="page-link">Previous</a>
+                <a th:unless="${kitchenViewModel.hasPrevious()}"
+                   class="page-link" href="#">Previous</a>
+            </li>
+
+            <!-- Dynamic page numbers -->
+            <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, kitchenViewModel.totalPages)}">
+                <a th:href="@{/kitchens/all(size=${kitchenViewModel.getSize()},page=${pageNumber - 1})}"
+                   th:classappend="${pageNumber - 1 == kitchenViewModel.number} ? 'active' : 'disabled'"
+                   class="page-link" th:text="${pageNumber}"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${kitchenViewModel.hasNext() ? '' : 'disabled'}">
+                <a th:if="${kitchenViewModel.hasNext()}"
+                   th:href="@{/kitchens/all(size=${kitchenViewModel.getSize()},page=${kitchenViewModel.getNumber() + 1})}"
+                   class="page-link">Next</a>
+                <a th:unless="${kitchenViewModel.hasNext()}"
+                   class="page-link">Next</a>
+            </li>
+            <li class="page-item" th:classappend="${kitchenViewModel.isLast()} ? 'disabled' : ''">
+                <a th:unless="${kitchenViewModel.isLast()}"
+                   th:href="@{/kitchens/all(size=${kitchenViewModel.getSize()},page=${kitchenViewModel.getTotalPages() - 1})}"
+                   class="page-link">Last</a>
+                <a th:if="${kitchenViewModel.isLast()}"
+                   class="page-link" href="#">Last</a>
+            </li>
+        </ul>
+    </nav>
+</th:block>
+<!-- Pagination End-->
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+
+</body>
+</html>

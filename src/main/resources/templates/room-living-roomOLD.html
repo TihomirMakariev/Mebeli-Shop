@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+
+
+<main>
+    <section class="py-2 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Living room products</h1>
+            </div>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+                <div class="col"
+                     th:each="livingRoom : ${livingRoomViewModel.getContent()}"
+                     th:object="${livingRoom}">
+                    <div class="card shadow-sm">
+                        <div class="card-img-top-wrapper">
+                            <img class="card-img-top" th:src="*{imageUrl}" alt="Car image" height="230">
+                        </div>
+
+                        <div class="card-body">
+                            <div class="card-text"><span>Name: <th:block th:text="*{name}"></th:block></span></div>
+                            <div class="card-text"><span>Color: <th:block th:text="*{color}"></th:block></span></div>
+                            <div class="card-text mb-3"><span>Price: <th:block th:text="*{price}"></th:block> лв.</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-sm btn-outline-secondary card-link"
+                                       th:href="@{/living-rooms/details/{livingRoomId}(livingRoomId=*{id})}">
+                                        View
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Pagination -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${livingRoomViewModel.isFirst()} ? 'disabled' : ''">
+            <a th:unless="${livingRoomViewModel.isFirst()}"
+               th:href="@{/living-rooms/all(size=${livingRoomViewModel.getSize()},page=0)}"
+               class="page-link">First</a>
+            <a th:if="${livingRoomViewModel.isFirst()}"
+               class="page-link" href="#">First</a>
+        </li>
+        <li class="page-item" th:classappend="${livingRoomViewModel.hasPrevious() ? '' : 'disabled'}">
+            <a th:if="${livingRoomViewModel.hasPrevious()}"
+               th:href="@{/living-rooms/all(size=${livingRoomViewModel.getSize()},page=${livingRoomViewModel.getNumber() - 1})}"
+               class="page-link">Previous</a>
+            <a th:unless="${livingRoomViewModel.hasPrevious()}"
+               class="page-link" href="#">Previous</a>
+        </li>
+
+        <!-- Dynamic page numbers -->
+        <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, livingRoomViewModel.totalPages)}">
+            <a th:href="@{/living-rooms/all(size=${livingRoomViewModel.getSize()},page=${pageNumber - 1})}"
+               th:classappend="${pageNumber - 1 == livingRoomViewModel.number} ? 'active' : 'disabled'"
+               class="page-link" th:text="${pageNumber}"></a>
+        </li>
+
+        <li class="page-item" th:classappend="${livingRoomViewModel.hasNext() ? '' : 'disabled'}">
+            <a th:if="${livingRoomViewModel.hasNext()}"
+               th:href="@{/living-rooms/all(size=${livingRoomViewModel.getSize()},page=${livingRoomViewModel.getNumber() + 1})}"
+               class="page-link">Next</a>
+            <a th:unless="${livingRoomViewModel.hasNext()}"
+               class="page-link">Next</a>
+        </li>
+        <li class="page-item" th:classappend="${livingRoomViewModel.isLast()} ? 'disabled' : ''">
+            <a th:unless="${livingRoomViewModel.isLast()}"
+               th:href="@{/living-rooms/all(size=${livingRoomViewModel.getSize()},page=${livingRoomViewModel.getTotalPages() - 1})}"
+               class="page-link">Last</a>
+            <a th:if="${livingRoomViewModel.isLast()}"
+               class="page-link" href="#">Last</a>
+        </li>
+    </ul>
+</nav>
+<!-- Pagination End-->
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

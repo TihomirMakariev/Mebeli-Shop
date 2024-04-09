@@ -1,0 +1,26 @@
+
+
+#navbarNav .nav-link {
+    color: #41464b; /* Change this to the desired color */
+}
+
+
+
+
+
+
+/*#navbarMobileToggle{*/
+/*    color: white;*/
+/*}*/
+
+/*.navbar-toggler-sm {*/
+/*    padding: 0.25rem 0.5rem; !* Adjust padding as needed *!*/
+/*    font-size: 0.75rem; !* Adjust font size as needed *!*/
+/*    line-height: 1.25; !* Adjust line height as needed *!*/
+/*}*/
+
+/*@media (max-width: 576px) {*/
+/*    .fs-sm {*/
+/*        font-size: 0.875rem; !* Adjust the font size as needed *!*/
+/*    }*/
+/*}*/

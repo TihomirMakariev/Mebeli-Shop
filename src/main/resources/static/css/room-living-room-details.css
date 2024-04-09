@@ -1,0 +1,34 @@
+
+/*.card-body {*/
+/*    align-self: center; !* Center aligns the text *!*/
+/*}*/
+
+/*.card-title {*/
+/*    margin-bottom: auto; !* Pushes the title to the top *!*/
+/*}*/
+/*.offer-card {*/
+/*    max-height: calc(100% - 500px); !* Set a fixed height for the offer card *!*/
+/*    overflow-y: auto; !* Enable vertical scrollbar if content exceeds max height *!*/
+/*}*/
+
+/*.offer-details {*/
+/*    max-height: 500px; !* Calculate the height of offer details based on the remaining space *!*/
+/*    overflow-y: auto; !* Enable vertical scrollbar if content exceeds max height *!*/
+/*}*/
+
+/*.card-img-top {*/
+/*    height: 300px; !* Set maximum height for the image *!*/
+/*    width: auto; !* Allow width to adjust proportionally *!*/
+/*}*/
+
+/*.offer-details .list-group-item {*/
+/*    margin-bottom: 20px; !* Add margin bottom to create space between li elements *!*/
+/*}*/
+
+/*.card-text {*/
+/*    margin-bottom: 15px; !* Adjust the value as needed *!*/
+/*}*/
+
+/*.card-text span {*/
+/*    color: #373b3e; !* Change the color to your desired color *!*/
+/*}*/

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Carousel HTML structure -->
+<div id="carouselExampleIndicators" class="carousel slide">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
+                aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6"
+                aria-label="Slide 7"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7"
+                aria-label="Slide 8"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8"
+                aria-label="Slide 9"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/images/carousel_1.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/carousel_2.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/carousel_3.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/carousel_4.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/carousel_5.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/carousel_6.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/carousel_7.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/carousel_8.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/carousel_9.jpg" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<!-- Carousel HTML structure End-->
+
+<!-- Section Living room view -->
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="section-item-title-header row mb-3">
+            <div class="col">
+                <a href="/living-rooms/all" style="color: black; text-decoration: none">
+                    <h4 class="section-item-title">Living rooms</h4>
+                </a>
+            </div>
+            <div class="col text-end">
+                <a href="/living-rooms/all"
+                   class="extra-link"
+                   style="color: black;
+                   text-decoration: none;
+                   font-size: 1em;">Show more</a>
+            </div>
+        </div>
+
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+            <div class="col"
+                 th:each="livingRoomViewModel : ${livingRoomViewModel.getContent()}"
+                 th:object="${livingRoomViewModel}">
+                <div class="card shadow-sm">
+                    <div class="card-img-top-wrapper">
+                        <img class="card-img-top" th:src="*{imageUrl}" alt="Car image" height="230">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text"><span><strong>Name:</strong> <th:block
+                                th:text="*{name}"></th:block></span></div>
+                        <div class="card-text"><span><strong>Color:</strong> <th:block
+                                th:text="*{color}"></th:block></span></div>
+                        <div class="card-text mb-3"><span><strong>Price:</strong> <th:block
+                                th:text="*{price}"></th:block> лв.</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-sm btn-outline-secondary card-link"
+                                   th:href="@{/living-rooms/details/{livingRoomId}(livingRoomId=*{id})}">
+                                    View
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Section Living room view End-->
+
+<!-- Section Kitchen view -->
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="section-item-title-header row mb-3">
+            <div class="col">
+                <a href="/kitchens/all" style="color: black; text-decoration: none">
+                    <h4 class="section-item-title">Kitchens</h4>
+                </a>
+            </div>
+            <div class="col text-end">
+                <a href="/kitchens/all"
+                   class="extra-link"
+                   style="color: black;
+                  text-decoration: none;
+                  font-size: 1em;">Show more</a>
+            </div>
+        </div>
+
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+            <div class="col"
+                 th:each="kitchenViewModel : ${kitchenViewModel.getContent()}"
+                 th:object="${kitchenViewModel}">
+                <div class="card shadow-sm">
+                    <div class="card-img-top-wrapper">
+                        <img class="card-img-top" th:src="*{imageUrl}" alt="Car image" height="230">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text"><span><strong>Name:</strong> <th:block
+                                th:text="*{name}"></th:block></span></div>
+                        <div class="card-text"><span><strong>Color:</strong> <th:block
+                                th:text="*{color}"></th:block></span></div>
+                        <div class="card-text mb-3"><span><strong>Price:</strong> <th:block
+                                th:text="*{price}"></th:block> лв.</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-sm btn-outline-secondary card-link"
+                                   th:href="@{/kitchens/details/{kitchenId}(kitchenId=*{id})}">
+                                    View
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Section Kitchen view End-->
+
+<!-- Carousel custom JavaScript -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const myCarouselElement = document.querySelector('#carouselExampleIndicators');
+        const carousel = new bootstrap.Carousel(myCarouselElement, {
+            touch: true // Enable mouse control
+        });
+    });
+</script>
+
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

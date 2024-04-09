@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+
+<!-- Registration 2 - Bootstrap Brain Component -->
+<div class="bg-light py-2 py-md-3" id="auth-register">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+                <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="mb-5 text-center">
+                                <h2 class="h3">Edit Kitchen room</h2>
+                                <h3 class="fs-6 fw-normal text-secondary m-0">Enter your details</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form
+                            th:object="${addOrUpdateKitchenDTO}"
+                            th:action="@{/kitchens/update/{id}(id=*{id})}"
+                            th:method="post">
+                        <div class="row gy-3 gy-md-4 overflow-hidden">
+
+                            <div class="col-12">
+                                <label for="name" class="form-label">Name<span class="text-danger">*</span></label>
+                                <input th:field="*{name}"
+                                       th:errorclass="is-invalid"
+                                       type="text"
+                                       class="form-control form-control-sm"
+                                       name="name"
+                                       id="name"
+                                       placeholder="Name"
+                                       />
+                                <p class="invalid-feedback errors alert alert-danger">
+                                    The name is required!
+                                </p>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="color" class="form-label">Color</label><span class="text-danger">*</span>
+                                <select id="color"
+                                        name="color"
+                                        class="form-select form-select-sm"
+                                        required
+                                        th:errorclass="is-invalid">
+                                    <option value="">- Select color -</option>
+                                    <option th:each="color : ${T(bg.tihomir.mebeli.model.enums.ColorEnum).values()}"
+                                            th:text="${color}"
+                                            th:value="${color}"
+                                            th:selected="${color} == *{color}">
+                                        Color
+                                    </option>
+                                </select>
+                                <p class="invalid-feedback errors alert alert-danger">
+                                    The color is required!
+                                </p>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="price" class="form-label">Price<span class="text-danger">*</span></label>
+                                <input th:field="*{price}"
+                                       th:errorclass="is-invalid"
+                                       type="text"
+                                       class="form-control form-control-sm"
+                                       id="price"
+                                       placeholder="0.00"
+                                       required/>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="imageUrl" class="form-label">Image URL<span
+                                        class="text-danger">*</span></label>
+                                <input th:field="*{imageUrl}"
+                                       th:errorclass="is-invalid"
+                                       type="text"
+                                       class="form-control form-control-sm"
+                                       name="name"
+                                       id="imageUrl"
+                                       placeholder="image Url"
+                                       required/>
+                                <p class="invalid-feedback errors alert alert-danger">
+                                    The image URL is required!
+                                </p>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="category" class="form-label">Category</label><span
+                                    class="text-danger">*</span>
+                                <select id="category"
+                                        name="category"
+                                        class="form-select form-select-sm"
+                                        required
+                                        th:errorclass="is-invalid">
+                                    <option value="">- Select category -</option>
+                                    <option th:each="category : ${T(bg.tihomir.mebeli.model.enums.CategoryEnum).values()}"
+                                            th:text="${category}"
+                                            th:value="${category}"
+                                            th:selected="${category} == *{category}">
+                                        Color
+                                    </option>
+                                </select>
+                                <p class="invalid-feedback errors alert alert-danger">
+                                    The color is required!
+                                </p>
+                            </div>
+
+                            <div class="col-12 d-flex justify-content-between">
+                                <div class="col-5 d-grid">
+                                    <button class="btn btn-sm btn-primary" type="submit" value="Update living room">Update</button>
+                                </div>
+                                <div class="col-5 d-grid">
+                                    <a class="btn btn-sm btn-outline-primary card-link"
+                                       th:href="@{/kitchens/details/{kitchenId}(kitchenId=*{id})}">Go Back</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

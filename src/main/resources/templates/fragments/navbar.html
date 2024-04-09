@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="navbar">
+
+    <!-- Navbar -->
+    <header class="p-3 mb-1 border-bottom">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+
+                <!-- Site Logo -->
+                <a class="navbar-brand" href="/">
+                    <img alt="Mebel Logo" height="35" loading="lazy" th:src="@{/images/logo.png}"/>
+                </a>
+
+                <!-- Navbar toggler button for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navbar items -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" th:text="#{navbar_all_livingrooms}"
+                                                href="/living-rooms/all">Living room</a></li>
+                        <li class="nav-item"><a class="nav-link" th:text="#{navbar_all_kitchens}" href="/kitchens/all">Kitchen</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" th:text="#{navbar_all_bedroom}" href="#">Bedroom</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" th:text="#{navbar_all_childrensroom}" href="#">Children's
+                            room</a></li>
+                        <li class="nav-item"><a class="nav-link" th:text="#{navbar_all_bathroom}" href="#">Bathroom</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" th:text="#{navbar_about}" href="/home/about">About Me</a>
+                        </li>
+                    </ul>
+
+                    <!-- Search bar -->
+<!--                    <form class="d-flex">-->
+<!--                        <label for="searchInput"  class="visually-hidden">Search</label>-->
+<!--                        <input id="searchInput" class="form-control form-control-sm me-2" type="search"-->
+<!--                               aria-label="Search">-->
+<!--                        <button class="btn btn-sm btn-outline-secondary" th:text="#{navbar_search}" type="submit">Search</button>-->
+<!--                    </form>-->
+                    <!-- Search bar End-->
+
+                    <!-- Dropdown ADMIN Only -->
+                    <th:block sec:authorize="isAuthenticated()">
+                        <ul class="navbar-nav ms-lg-auto me-5">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">Admin(should be)</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/living-rooms/add">Add living room</a></li>
+                                    <li><a class="dropdown-item" href="/kitchens/add">Add kitchen</a></li>
+                                    <li><a class="dropdown-item" href="#">Add bedroom</a></li>
+                                    <li><a class="dropdown-item" href="#">Add children's room</a></li>
+                                    <li><a class="dropdown-item" href="#">Add bathroom</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </th:block>
+
+                    <!-- Welcome User -->
+                    <th:block sec:authorize="isAuthenticated()">
+                        <span class="col-12 col-lg-auto" sec:authorize="isAuthenticated()">
+                                <strong>Welcome,
+                                <th:block th:text="${#authentication.principal.fullName}">X</th:block>!</strong>
+                            </span>
+                        <ul class="navbar-nav ms-lg-2">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    <img th:src="@{/images/user-logo.png}"
+                                         alt="mdo" width="25" height="25" class="rounded-circle">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item"
+                                           th:text="#{navbar_profile}"
+                                           th:href="@{/users/profile/{id}(id=${#authentication.principal.id})}">Profile</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <form th:action="@{/users/logout}"
+                                              th:method="post">
+                                            <button class="dropdown-item" th:text="#{navbar_logout}" type="submit">Logout</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </th:block>
+
+                    <!-- Login-Register-User -->
+                    <th:block sec:authorize="!isAuthenticated()">
+                        <ul class="navbar-nav ms-lg-2">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false"><i class="far fa-user-circle fa-lg"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item"
+                                           th:text="#{navbar_login}"
+                                           th:href="@{/users/login}"><i class="bi bi-lock-fill"></i>Login</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                           th:text="#{navbar_register}"
+                                           th:href="@{/users/register}"><i class="bi bi-gear-fill"></i>Registration</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </th:block>
+
+                    <!-- Language selector -->
+                    <ul class="navbar-nav ms-lg-2 bg-body">
+                        <li class="nav-item dropdown">
+                            <form th:method="get" class="d-flex">
+                                <label th:text="#{navbar_language}" for="lang" class="me-2 d-lg-none"></label>
+                                <select
+                                        onchange="this.form.submit()"
+                                        id="lang"
+                                        name="lang"
+                                        class="form-select form-select-sm"
+                                >
+                                    <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">ENG</option>
+                                    <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">BG</option>
+                                </select>
+                            </form>
+                        </li>
+                    </ul>
+                    <!-- Language selector End-->
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Navbar -->
+
+</div>
+
+</html>
